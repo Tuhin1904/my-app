@@ -18,9 +18,10 @@ async function register(req, res) {
       password: hashed,
     });
 
-    res.status(201).json({ message: "User registered", user });
+    return res.status(201).json({ message: "User registered", user });
   } catch (err) {
-    res.status(500).json({ error: err });
+    const error = JSON.stringify(err);
+    return res.status(500).json({ error: err, stack: error });
   }
 }
 
