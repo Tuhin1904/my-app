@@ -5,7 +5,7 @@ const connect = require("./db/mongoose");
 async function start() {
   try {
     await connect();
-
+    console.log("Database is connected");
     app.listen(config.port, () => {
       console.log(`Server running on port ${config.port}`);
     });
