@@ -20,8 +20,15 @@ async function register(req, res) {
 
     return res.status(201).json({ message: "User registered", user });
   } catch (err) {
-    const error = JSON.stringify(err);
-    return res.status(500).json({ error: err, stack: error });
+    console.error("REGISTER ERROR:", err);
+    
+    // const error = JSON.stringify(err);
+    // return res.status(500).json({ error: err, stack: error });
+    return res.status(500).json({
+      message: "Registration failed",
+      error: err.message,
+      stack: err.stack,
+    });
   }
 }
 
