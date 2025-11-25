@@ -4,6 +4,15 @@ const jwt = require("jsonwebtoken");
 const config = require("../config/config");
 const mongoose = require("mongoose");
 
+// Log DB connection status before doing anything
+const statusMap = {
+  0: "Disconnected",
+  1: "Connected",
+  2: "Connecting",
+  3: "Disconnecting",
+};
+console.warn("MongoDB Status:", statusMap[mongoose.connection.readyState]);
+
 async function register(req, res) {
   try {
     const { name, email, password } = req.body;
@@ -15,7 +24,7 @@ async function register(req, res) {
       2: "Connecting",
       3: "Disconnecting",
     };
-    console.log("MongoDB Status:", statusMap[mongoose.connection.readyState]);
+    console.warn("MongoDB Status:", statusMap[mongoose.connection.readyState]);
 
     const exist = await userService.findUserByEmail(email);
     if (exist) return res.status(400).json({ message: "Email already exists" });
@@ -34,16 +43,16 @@ async function register(req, res) {
 
     // const error = JSON.stringify(err);
     // return res.status(500).json({ error: err, stack: error });
-    // return res.status(500).json({
-    //   message: "Registration failed",
-    //   error: err.message,
-    //   stack: err.stack,
-    // });
     return res.status(500).json({
       message: "Registration failed",
-      error: statusMap[mongoose.connection.readyState],
-      stack: statusMap[mongoose.connection.readyState],
+      error: err.message,
+      stack: err.stack,
     });
+    // return res.status(500).json({
+    //   message: "Registration failed",
+    //   error: statusMap[mongoose.connection.readyState],
+    //   stack: statusMap[mongoose.connection.readyState],
+    // });
   }
 }
 
