@@ -47,7 +47,7 @@ async function register(req, res) {
       message: "Registration failed",
       error: err.message,
       stack: err.stack,
-      mongoStatus: statusMap[mongoose.connection.readyState],
+      mongoUri: process.env.MONGO_URI,
     });
     // return res.status(500).json({
     //   message: "Registration failed",
