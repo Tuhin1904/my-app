@@ -34,10 +34,15 @@ async function register(req, res) {
 
     // const error = JSON.stringify(err);
     // return res.status(500).json({ error: err, stack: error });
+    // return res.status(500).json({
+    //   message: "Registration failed",
+    //   error: err.message,
+    //   stack: err.stack,
+    // });
     return res.status(500).json({
       message: "Registration failed",
-      error: err.message,
-      stack: err.stack,
+      error: statusMap[mongoose.connection.readyState],
+      stack: statusMap[mongoose.connection.readyState],
     });
   }
 }
